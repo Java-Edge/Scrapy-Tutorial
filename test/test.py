@@ -3,12 +3,14 @@ __author__ = 'JavaEdge'
 
 import re
 
-line = "JavaEdge1234"
+# 源字符串
+line = "boooooooobboy1234"
 
-# 普通判断
-# if line == "JavaEdge1234"
+# 正则匹配规则
+regex_str = ".*?(b.*?b).*"
 
-regex_str = "^J.*4$"
+# 匹配结果
+match_obj = re.match(regex_str, line)
 
-if re.match(regex_str, line):
-    print("yes")
+if match_obj:
+    print(match_obj.group(1))

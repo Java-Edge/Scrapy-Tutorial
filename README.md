@@ -82,3 +82,6 @@ pycharm
 
 - 工具 
 virtualenv navicat
+
+# 参考
+[聚焦Python分布式爬虫必学框架Scrapy 打造搜索引擎](https://coding.imooc.com/class/92.html)
