@@ -109,4 +109,3 @@ venv.bak/
 .idea/modules.xml
 .idea/regtest.iml
 .idea/workspace.xml
-test/
