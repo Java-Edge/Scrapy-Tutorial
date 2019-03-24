@@ -62,15 +62,15 @@ ROBOTSTXT_OBEY = False
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 # }
 
-# Configure item pipelines
-# See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 # 这个ITEM_PIPELINES指的是在scrapy中配置item会流进这里的所有处理类
 # 相当于item流进管道，后面的数字代表处理顺序，数字越小越早进入pipeline
 # 先进入ImagePipeline再进入ArticleSpiderPipeline
 ITEM_PIPELINES = {
-    'ArticleSpider.pipelines.ArticlespiderPipeline': 300,
+    # 'ArticleSpider.pipelines.ArticlespiderPipeline': 300,
     # 'scrapy.pipelines.images.ImagesPipeline': 1,
     'ArticleSpider.pipelines.ArticleImagePipeline': 1,
+    # 'ArticleSpider.pipelines.JsonWithEncodingPipeline': 2,
+    'ArticleSpider.pipelines.JsonExporterPipeline': 2,
 }
 
 # 告诉处理图片下载的pipeline到底应该去哪个地址下载图片，是item中的哪个字段

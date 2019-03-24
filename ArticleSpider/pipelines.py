@@ -1,11 +1,51 @@
 # 处理获取下载到本地的图片的保存路径
 
+import codecs
+import json
+
 from scrapy.pipelines.images import ImagesPipeline
+from scrapy.exporters import JsonItemExporter
+
 
 class ArticlespiderPipeline(object):
     def process_item(self, item, spider):
         # item传递到pipline后，可以进行很多操作，比如保存到数据库，drop该item，主要做数据存储
         return item
+
+
+# 将数据保存到json的pipeline
+class JsonWithEncodingPipeline(object):
+    def __init__(self):
+        self.file = codecs.open('article.json', 'w', encoding='utf-8')
+
+    # 保存到json文件，首先就要打开json文件，可以在初始化的时候就打开文件，先将需要写入的文件打开
+    # 用到python开发包codecs，与普通打开文件包open最大的区别在于文件的编码
+
+    def process_item(self, item, spider):
+        # 完成item的写入，首先将item转化为字符串
+        lines = json.dumps(dict(item), ensure_ascii=False) + "\n"
+        # ensure_ascii设为False，不然写入中文是会报错的，会直接把unicode编码写入文章中
+        self.file.write(lines)
+        return item
+
+    # 内置的函数，spider关闭函数，同时将文件关闭
+    def spider_closed(self, spider):
+        self.file.close()
+
+# 调用scrapy提供的json exporter导出json文件
+class JsonExporterPipeline(object):
+    # 一个关键的地方，在init时，可以直接使用open方法，并且需要传递exporter
+    def __init__(self):
+        self.file = open('articleexporter.json', 'wb')
+        self.exporter = JsonItemExporter(self.file, encoding="utf-8",ensure_ascii=False)
+        self.exporter.start_exporting()
+    def close_spider(self,spider):
+        self.exporter.finish_exporting()
+        self.file.close()
+    def process_item(self, item, spider):
+        self.exporter.export_item(item)
+        return item
+
 
 # 到了这一个pipeline，需要做的就是跟数据库或者文件打交道，比如将数据保存到mysql，mangodb，或者本地文件，或者发送到es上面去
 
@@ -18,4 +58,3 @@ class ArticleImagePipeline(ImagesPipeline):
             image_file_path = value["path"]
         item["front_image_path"] = image_file_path
         return item
-
