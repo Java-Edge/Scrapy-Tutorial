@@ -68,9 +68,10 @@ ROBOTSTXT_OBEY = False
 ITEM_PIPELINES = {
     # 'ArticleSpider.pipelines.ArticlespiderPipeline': 300,
     # 'scrapy.pipelines.images.ImagesPipeline': 1,
-    'ArticleSpider.pipelines.ArticleImagePipeline': 1,
+    # 'ArticleSpider.pipelines.ArticleImagePipeline': 1,
     # 'ArticleSpider.pipelines.JsonWithEncodingPipeline': 2,
-    'ArticleSpider.pipelines.JsonExporterPipeline': 2,
+    # 'ArticleSpider.pipelines.JsonExporterPipeline': 2,
+    'ArticleSpider.pipelines.MysqlPipeline': 1,
 }
 
 # 告诉处理图片下载的pipeline到底应该去哪个地址下载图片，是item中的哪个字段
