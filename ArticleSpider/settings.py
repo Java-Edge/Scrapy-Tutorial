@@ -8,6 +8,7 @@
 #     https://doc.scrapy.org/en/latest/topics/settings.html
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+import os
 
 BOT_NAME = 'ArticleSpider'
 
@@ -63,9 +64,27 @@ ROBOTSTXT_OBEY = False
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    'ArticleSpider.pipelines.ArticlespiderPipeline': 300,
-# }
+# 这个ITEM_PIPELINES指的是在scrapy中配置item会流进这里的所有处理类
+# 相当于item流进管道，后面的数字代表处理顺序，数字越小越早进入pipeline
+# 先进入ImagePipeline再进入ArticleSpiderPipeline
+ITEM_PIPELINES = {
+    'ArticleSpider.pipelines.ArticlespiderPipeline': 300,
+    # 'scrapy.pipelines.images.ImagesPipeline': 1,
+    'ArticleSpider.pipelines.ArticleImagePipeline': 1,
+}
+
+# 告诉处理图片下载的pipeline到底应该去哪个地址下载图片，是item中的哪个字段
+IMAGES_URLS_FIELD = "front_image_url"
+
+# 获取当前项目路径
+project_dir = os.path.abspath(os.path.dirname(__file__))
+# 拼接设置图片路径
+IMAGES_STORE = os.path.join(project_dir, "images")
+
+# 表示下载的图片必须要是大于100*100的
+#IMAGES_MIN_HEIGHT = 100 #在ImagesPipeline中使用到了此变量
+#IMAGES_MIN_WIDTH = 100 #在ImagesPipeline中使用到了此变量
+
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
