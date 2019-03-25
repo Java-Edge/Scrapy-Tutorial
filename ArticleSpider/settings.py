@@ -72,6 +72,7 @@ ITEM_PIPELINES = {
     # 'ArticleSpider.pipelines.JsonWithEncodingPipeline': 2,
     # 'ArticleSpider.pipelines.JsonExporterPipeline': 2,
     'ArticleSpider.pipelines.MysqlPipeline': 1,
+    # 'ArticleSpider.pipelines.MysqlTwistedPipeline': 1,
 }
 
 # 告诉处理图片下载的pipeline到底应该去哪个地址下载图片，是item中的哪个字段
@@ -107,3 +108,9 @@ IMAGES_STORE = os.path.join(project_dir, "images")
 # HTTPCACHE_DIR = 'httpcache'
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+MYSQL_HOST = "127.0.0.1"
+MYSQL_DB_NAME = "article_spider"
+MYSQL_USER = "root"
+MYSQL_PASSWORD = "root"
+

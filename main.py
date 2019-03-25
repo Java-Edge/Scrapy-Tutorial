@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 __author__ = 'JavaEdge'
 
 from scrapy.cmdline import execute
